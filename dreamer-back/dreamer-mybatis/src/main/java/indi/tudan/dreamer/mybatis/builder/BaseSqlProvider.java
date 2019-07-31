@@ -54,7 +54,7 @@ public abstract class BaseSqlProvider<T> {
     }
 
     /**
-     * 拼接查询 SQL
+     * 按条件拼接查询 SQL
      *
      * @param condition 查询条件
      * @param orderBy   排序条件
@@ -70,11 +70,21 @@ public abstract class BaseSqlProvider<T> {
     /**
      * 拼接分页查询 SQL
      *
+     * @param page 分页条件和排序条件
+     * @return String
+     */
+    public String page(Page page) {
+        return pageByCondition(null, page);
+    }
+
+    /**
+     * 按条件拼接分页查询 SQL
+     *
      * @param condition 查询条件
      * @param page      分页条件和排序条件
      * @return String
      */
-    public String selectPageByCondition(@Param("condition") Object condition, Page page) {
+    public String pageByCondition(@Param("condition") Object condition, Page page) {
         String orderBy = null;
         if (null != page) {
             orderBy = page.getOrderBy();
@@ -87,7 +97,7 @@ public abstract class BaseSqlProvider<T> {
             long offset = limit * (page.getPageNo() - 1);
             sqlStr += " limit " + offset + "," + limit;
         }
-        logDebugSql(sql);
+        logDebugSql(sqlStr);
         return sqlStr;
     }
 

@@ -14,6 +14,7 @@ import java.io.Serializable;
  * @since 1.0
  */
 public abstract class BaseObject implements Serializable {
+
     @Override
     public int hashCode() {
         return HashCodeBuilder.reflectionHashCode(this);

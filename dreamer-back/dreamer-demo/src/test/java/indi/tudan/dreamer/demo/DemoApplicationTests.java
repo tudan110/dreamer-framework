@@ -36,14 +36,22 @@ public class DemoApplicationTests {
     }
 
     @Test
-    public void selectPageByCondition() {
-        log.info("分页查询结果: {}", userMapper.selectPageByCondition(User.class,
+    public void page() {
+        log.info("查询结果: {}", userMapper.page(new Page()
+                .fluentSetPageNo(1)
+                .fluentSetPageSize(20)
+                .fluentSetOrderBy("id asc")));
+    }
+
+    @Test
+    public void pageByCondition() {
+        log.info("分页查询结果: {}", userMapper.pageByCondition(User.class,
                 new UserCondition()
                         .fluentSetMinId("605398903319166976")
                         .fluentSetMaxId("605399053823377408")
 //                        .fluentSetName("%小蓝鲸%")
                         .fluentSetEmail("%com%"),
-                new Page(20, 1, "id desc")));
+                new Page(1, 20, "id desc")));
     }
 
     @Test
@@ -51,5 +59,17 @@ public class DemoApplicationTests {
         log.info("共 {} 条", userMapper.countByCondition(new UserCondition()
                 .fluentSetMinId("605398903319166976")
                 .fluentSetMaxId("605399053823377408")));
+    }
+
+    @Test
+    public void other() {
+//        List<User> userList = userMapper.listUser();
+//        List<User> userList = userMapper.listUsers();
+//        List<User> userList = userMapper.select();
+
+//        List<User> userListOrderBy = userList.stream().filter((User u) -> u.getName() == "1212").collect(Collectors.toList());
+//        Collections.sort(userList, (user1, user2) -> user1.getId() - user2.getId());
+//        Collections.sort(userList, Comparator.comparingInt(User::getId));
+//        userList.sort(Comparator.comparing(User::getId));
     }
 }

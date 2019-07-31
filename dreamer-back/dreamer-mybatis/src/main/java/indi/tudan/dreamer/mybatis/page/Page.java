@@ -2,6 +2,7 @@ package indi.tudan.dreamer.mybatis.page;
 
 
 import indi.tudan.dreamer.core.bean.BaseObject;
+import lombok.Data;
 
 /**
  * 分页对象
@@ -10,43 +11,39 @@ import indi.tudan.dreamer.core.bean.BaseObject;
  * @date 2019-07-30 15:43:33
  * @since 1.0
  */
+@Data
 public class Page extends BaseObject {
-    private Integer pageSize;
+
     private Integer pageNo;
+    private Integer pageSize;
     private String orderBy;
 
-    public Page(Integer pageSize, Integer pageNo) {
-        this.pageSize = pageSize;
-        this.pageNo = pageNo;
+    public Page() {
     }
 
-    public Page(Integer pageSize, Integer pageNo, String orderBy) {
-        this.pageSize = pageSize;
+    public Page(Integer pageNo, Integer pageSize) {
         this.pageNo = pageNo;
+        this.pageSize = pageSize;
+    }
+
+    public Page(Integer pageNo, Integer pageSize, String orderBy) {
+        this.pageNo = pageNo;
+        this.pageSize = pageSize;
         this.orderBy = orderBy;
     }
 
-    public Integer getPageSize() {
-        return pageSize;
-    }
-
-    public void setPageSize(Integer pageSize) {
-        this.pageSize = pageSize;
-    }
-
-    public Integer getPageNo() {
-        return pageNo;
-    }
-
-    public void setPageNo(Integer pageNo) {
+    public Page fluentSetPageNo(Integer pageNo) {
         this.pageNo = pageNo;
+        return this;
     }
 
-    public String getOrderBy() {
-        return orderBy;
+    public Page fluentSetPageSize(Integer pageSize) {
+        this.pageSize = pageSize;
+        return this;
     }
 
-    public void setOrderBy(String orderBy) {
+    public Page fluentSetOrderBy(String orderBy) {
         this.orderBy = orderBy;
+        return this;
     }
 }

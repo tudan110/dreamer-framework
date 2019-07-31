@@ -42,10 +42,19 @@ public class SqlProviderUtil {
      *
      * @param sql sql语句
      */
-    static void logDebugSql(SQL sql) {
+    static void logDebugSql(String sql) {
         if (log.isDebugEnabled()) {
-            log.debug(sql.toString());
+            log.debug(sql);
         }
+    }
+
+    /**
+     * 日志是 debug 级别，打印 sql
+     *
+     * @param sql sql语句
+     */
+    static void logDebugSql(SQL sql) {
+        logDebugSql(sql.toString());
     }
 
     /**
@@ -139,50 +148,52 @@ public class SqlProviderUtil {
      * @param orderBy   排序条件
      */
     static void where(SQL sql, Object condition, String orderBy) {
-        getAllDeclaredFields(condition.getClass()).stream()
-                .filter(field -> !field.isAnnotationPresent(Ignore.class))
-                .forEach(field -> {
-                    String fieldName = field.getName();
-                    String columnName;
-                    String fieldEL;
-                    if (field.isAnnotationPresent(Column.class)) {
-                        Column annotation = field.getAnnotation(Column.class);
-                        columnName = annotation.column().trim();
-                        fieldEL = getFieldEL("condition." + fieldName, annotation);
-                    } else {
-                        columnName = getColumnName(fieldName);
-                        fieldEL = getFieldEL("condition." + fieldName, null);
-                    }
-                    Object value = valueOfField(condition, fieldName);
-                    if (null != value) {
-                        if (value instanceof String) {
-                            if (!StringUtils.isEmpty(value) && !value.equals("%%")) {
+        if (null != condition) {
+            getAllDeclaredFields(condition.getClass()).stream()
+                    .filter(field -> !field.isAnnotationPresent(Ignore.class))
+                    .forEach(field -> {
+                        String fieldName = field.getName();
+                        String columnName;
+                        String fieldEL;
+                        if (field.isAnnotationPresent(Column.class)) {
+                            Column annotation = field.getAnnotation(Column.class);
+                            columnName = annotation.column().trim();
+                            fieldEL = getFieldEL("condition." + fieldName, annotation);
+                        } else {
+                            columnName = getColumnName(fieldName);
+                            fieldEL = getFieldEL("condition." + fieldName, null);
+                        }
+                        Object value = valueOfField(condition, fieldName);
+                        if (null != value) {
+                            if (value instanceof String) {
+                                if (!StringUtils.isEmpty(value) && !value.equals("%%")) {
 //                                sql.WHERE(getColumnName + " like " + getFieldEL);
+                                    if (fieldName.startsWith("min")) {
+                                        sql.WHERE(columnName + " >= " + fieldEL);
+                                    } else if (field.getName().startsWith("max")) {
+                                        sql.WHERE(columnName + " <= " + fieldEL);
+                                    } else if (((String) value).startsWith("%") || ((String) value).endsWith("%")) {
+                                        sql.WHERE(columnName + " like " + fieldEL);
+                                    } else {
+                                        sql.WHERE(columnName + " = " + fieldEL);
+                                    }
+                                }
+                            } else if (value instanceof Number
+                                    || value instanceof LocalDate
+                                    || value instanceof LocalDateTime) {
                                 if (fieldName.startsWith("min")) {
                                     sql.WHERE(columnName + " >= " + fieldEL);
                                 } else if (field.getName().startsWith("max")) {
                                     sql.WHERE(columnName + " <= " + fieldEL);
-                                } else if (((String) value).startsWith("%") || ((String) value).endsWith("%")) {
-                                    sql.WHERE(columnName + " like " + fieldEL);
                                 } else {
-                                    sql.WHERE(columnName + " = " + fieldEL);
+                                    sql.WHERE(columnName + "=" + fieldEL);
                                 }
-                            }
-                        } else if (value instanceof Number
-                                || value instanceof LocalDate
-                                || value instanceof LocalDateTime) {
-                            if (fieldName.startsWith("min")) {
-                                sql.WHERE(columnName + " >= " + fieldEL);
-                            } else if (field.getName().startsWith("max")) {
-                                sql.WHERE(columnName + " <= " + fieldEL);
                             } else {
-                                sql.WHERE(columnName + "=" + fieldEL);
+                                sql.WHERE(columnName + " = " + fieldEL);
                             }
-                        } else {
-                            sql.WHERE(columnName + " = " + fieldEL);
                         }
-                    }
-                });
+                    });
+        }
         if (null != orderBy && !orderBy.isEmpty()) {
             sql.ORDER_BY(orderBy);
         }

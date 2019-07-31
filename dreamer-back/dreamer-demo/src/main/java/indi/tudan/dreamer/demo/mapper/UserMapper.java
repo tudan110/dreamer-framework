@@ -2,7 +2,6 @@ package indi.tudan.dreamer.demo.mapper;
 
 import indi.tudan.dreamer.demo.model.User;
 import indi.tudan.dreamer.demo.model.UserCondition;
-import indi.tudan.dreamer.mybatis.annotation.TMapper;
 import indi.tudan.dreamer.mybatis.page.Page;
 import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
@@ -34,8 +33,11 @@ public interface UserMapper {
     @SelectProvider(type = UserSqlProvider.class, method = SELECT_BY_CONDITION)
     List<User> selectByCondition(Class clazz, @Param("condition") UserCondition condition, String orderBy);
 
-    @SelectProvider(type = UserSqlProvider.class, method = SELECT_PAGE_BY_CONDITION)
-    List<User> selectPageByCondition(Class clazz, @Param("condition") UserCondition condition, Page page);
+    @SelectProvider(type = UserSqlProvider.class, method = PAGE)
+    List<User> page(Page page);
+
+    @SelectProvider(type = UserSqlProvider.class, method = PAGE_BY_CONDITION)
+    List<User> pageByCondition(Class clazz, @Param("condition") UserCondition condition, Page page);
 
     @SelectProvider(type = UserSqlProvider.class, method = COUNT_BY_CONDITION)
     long countByCondition(@Param("condition") UserCondition condition);
