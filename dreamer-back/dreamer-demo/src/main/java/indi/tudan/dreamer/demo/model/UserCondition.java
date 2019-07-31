@@ -25,7 +25,7 @@ public class UserCondition {
 
     private String email;
 
-    /* start: Builder 链式调用 @author wangtan @date 2019-07-30 14:58:37 @since 1.0*/
+    /* start: Builder 链式调用 */
     public UserCondition fluentSetId(String id) {
         this.id = id;
         return this;
@@ -50,6 +50,6 @@ public class UserCondition {
         this.email = email;
         return this;
     }
-    /* end: Builder 链式调用 @author wangtan @date 2019-07-30 14:58:37 @since 1.0*/
+    /* end: Builder 链式调用 */
 
 }

@@ -32,6 +32,7 @@ public class Page extends BaseObject {
         this.orderBy = orderBy;
     }
 
+    /* start: Builder 链式调用 */
     public Page fluentSetPageNo(Integer pageNo) {
         this.pageNo = pageNo;
         return this;
@@ -46,4 +47,6 @@ public class Page extends BaseObject {
         this.orderBy = orderBy;
         return this;
     }
+    /* end: Builder 链式调用 */
+
 }
