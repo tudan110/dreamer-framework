@@ -1,5 +1,6 @@
 package indi.tudan.dreamer.demo;
 
+import indi.tudan.dreamer.core.utils.Id.IdUtil;
 import indi.tudan.dreamer.demo.mapper.UserMapper;
 import indi.tudan.dreamer.demo.model.User;
 import indi.tudan.dreamer.demo.model.UserCondition;
@@ -52,6 +53,23 @@ public class DemoApplicationTests {
 //                        .fluentSetName("%小蓝鲸%")
                         .fluentSetEmail("%com%"),
                 new Page(1, 20, "id desc")));
+    }
+
+    @Test
+    public void insert() {
+        int count = userMapper.insert(new User()
+                .fluentSetId(IdUtil.nextId())
+                .fluentSetName("insert-test")
+                .fluentSetEmail("test@test.com"));
+        log.info("插入了 {} 条", count);
+    }
+
+    @Test
+    public void updateByPrimaryKeySelective() throws Exception {
+        log.info("更新了 {} 条", userMapper.updateByPrimaryKey(new User()
+                .fluentSetId("605509093947342848")
+                .fluentSetName("update-test")
+                .fluentSetEmail("test@test.com")));
     }
 
     @Test

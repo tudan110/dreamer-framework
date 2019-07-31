@@ -1,5 +1,8 @@
 package indi.tudan.dreamer.mybatis.builder;
 
+import indi.tudan.dreamer.mybatis.annotation.Column;
+import indi.tudan.dreamer.mybatis.annotation.Ignore;
+import indi.tudan.dreamer.mybatis.annotation.PK;
 import indi.tudan.dreamer.mybatis.page.Page;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.annotations.Param;
@@ -99,6 +102,75 @@ public abstract class BaseSqlProvider<T> {
         }
         logDebugSql(sqlStr);
         return sqlStr;
+    }
+
+    /**
+     * 拼接插入 SQL
+     *
+     * @param record 待插入记录
+     * @return String
+     */
+    public String insert(T record) {
+        SQL sql = new SQL().INSERT_INTO(this.getTableName());
+        getAllDeclaredFields(entityClass).stream()
+                .filter(field -> !field.isAnnotationPresent(Ignore.class))
+                .forEach(field -> {
+                    String fieldName = field.getName();
+                    Object value = valueOfField(record, fieldName);
+                    if (null != value) {
+                        if (field.isAnnotationPresent(Column.class)) {
+                            Column annotation = field.getAnnotation(Column.class);
+                            sql.VALUES(annotation.column().trim(), getFieldEL(fieldName, annotation));
+                        } else {
+                            sql.VALUES(getColumnName(fieldName), getFieldEL(fieldName, null));
+                        }
+                    }
+                });
+        logDebugSql(sql);
+        return sql.toString();
+    }
+
+    /**
+     * 拼接更新 SQL
+     *
+     * @param record 待更新记录
+     * @return String
+     */
+    public String updateByPrimaryKey(T record) {
+        final String[] primaryKeyName = {null};
+        final Column[] primaryKeyAnnotation = {null};
+        SQL sql = new SQL().UPDATE(this.getTableName());
+        getAllDeclaredFields(entityClass).stream()
+                .filter(field -> !field.isAnnotationPresent(Ignore.class))
+                .forEach(field -> {
+                    String fieldName = field.getName();
+                    if (field.isAnnotationPresent(PK.class)) {
+                        primaryKeyName[0] = field.getName();
+                        if (field.isAnnotationPresent(Column.class)) {
+                            primaryKeyAnnotation[0] = field.getAnnotation(Column.class);
+                        }
+                    }
+                    Object value = valueOfField(record, fieldName);
+                    if (null != value) {
+                        if (field.isAnnotationPresent(Column.class)) {
+                            Column annotation = field.getAnnotation(Column.class);
+                            sql.SET(annotation.column().trim() + " = " + getFieldEL(fieldName, annotation));
+                        } else {
+                            sql.SET(getColumnName(fieldName) + " = " + getFieldEL(fieldName, null));
+                        }
+                    }
+                });
+        if (null == primaryKeyName[0]) {
+            return null;
+        }
+        if (null != primaryKeyAnnotation[0]) {
+            sql.WHERE(primaryKeyAnnotation[0].column().trim()
+                    + " = " + getFieldEL(primaryKeyName[0], primaryKeyAnnotation[0]));
+        } else {
+            sql.WHERE(getColumnName(primaryKeyName[0])
+                    + " = " + getFieldEL(primaryKeyName[0], null));
+        }
+        return sql.toString();
     }
 
     /**

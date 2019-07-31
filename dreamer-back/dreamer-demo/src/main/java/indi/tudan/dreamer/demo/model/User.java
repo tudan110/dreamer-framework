@@ -21,16 +21,19 @@ public class User {
     private String email;
 
     /* start: Builder 链式调用 */
-    public void fluentSetId(String id) {
+    public User fluentSetId(String id) {
         this.id = id;
+        return this;
     }
 
-    public void fluentSetName(String name) {
+    public User fluentSetName(String name) {
         this.name = name;
+        return this;
     }
 
-    public void fluentSetEmail(String email) {
+    public User fluentSetEmail(String email) {
         this.email = email;
+        return this;
     }
     /* end: Builder 链式调用 */
 

@@ -39,6 +39,12 @@ public interface UserMapper {
     @SelectProvider(type = UserSqlProvider.class, method = PAGE_BY_CONDITION)
     List<User> pageByCondition(Class clazz, @Param("condition") UserCondition condition, Page page);
 
+    @InsertProvider(type = UserSqlProvider.class, method = INSERT)
+    int insert(User record);
+
+    @UpdateProvider(type = UserSqlProvider.class, method = UPDATE_BY_PRIMARY_KEY)
+    int updateByPrimaryKey(User record);
+
     @SelectProvider(type = UserSqlProvider.class, method = COUNT_BY_CONDITION)
     long countByCondition(@Param("condition") UserCondition condition);
 

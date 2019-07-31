@@ -25,7 +25,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<User> listUsers() {
-        return userMapper.page(new Page(1, 20, "id desc"));
+        return userMapper.page(new Page(1, 20, "id asc"));
     }
 
     @Override
