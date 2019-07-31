@@ -21,8 +21,8 @@
 
     <modules>
         <module>dreamer-core</module>
+        <module>dreamer-demo</module>
         <module>dreamer-mybatis</module>
-        <module>dream-demo</module>
     </modules>
 
     <properties>
