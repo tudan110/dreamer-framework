@@ -131,7 +131,7 @@ public abstract class BaseSqlProvider<T> {
     }
 
     /**
-     * 拼接更新 SQL
+     * 按主键拼接更新 SQL
      *
      * @param record 待更新记录
      * @return String
@@ -170,6 +170,19 @@ public abstract class BaseSqlProvider<T> {
             sql.WHERE(getColumnName(primaryKeyName[0])
                     + " = " + getFieldEL(primaryKeyName[0], null));
         }
+        return sql.toString();
+    }
+
+    /**
+     * 按条件拼接删除 SQL
+     *
+     * @param param 删除条件
+     * @return String
+     */
+    public String deleteByCondition(Map<String, Object> param) {
+        SQL sql = new SQL().DELETE_FROM(this.getTableName());
+        where(sql, param.get("condition"), null);
+        logDebugSql(sql);
         return sql.toString();
     }
 

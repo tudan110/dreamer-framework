@@ -65,11 +65,17 @@ public class DemoApplicationTests {
     }
 
     @Test
-    public void updateByPrimaryKeySelective() throws Exception {
+    public void updateByPrimaryKeySelective() {
         log.info("更新了 {} 条", userMapper.updateByPrimaryKey(new User()
                 .fluentSetId("605509093947342848")
                 .fluentSetName("update-test")
                 .fluentSetEmail("test@test.com")));
+    }
+
+    @Test
+    public void deleteByCondition() {
+        log.info("删除了 {} 条", userMapper.deleteByCondition(User.class,
+                new UserCondition().fluentSetId("606166383591424000")));
     }
 
     @Test
