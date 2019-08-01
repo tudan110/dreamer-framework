@@ -45,6 +45,6 @@ public class UserServiceImpl implements UserService {
     @Override
     public void delUserById(String id) {
 //        userMapper.delUserById(id);
-        userMapper.deleteByCondition(User.class, new UserCondition().fluentSetId(id));
+        userMapper.deleteByCondition(new UserCondition().fluentSetId(id));
     }
 }

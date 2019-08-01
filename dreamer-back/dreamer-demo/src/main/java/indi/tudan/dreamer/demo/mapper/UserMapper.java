@@ -43,13 +43,13 @@ public interface UserMapper {
     List<User> select();
 
     @SelectProvider(type = UserSqlProvider.class, method = SELECT_BY_CONDITION)
-    List<User> selectByCondition(Class clazz, @Param("condition") UserCondition condition, String orderBy);
+    List<User> selectByCondition(@Param("condition") UserCondition condition, String orderBy);
 
     @SelectProvider(type = UserSqlProvider.class, method = PAGE)
     List<User> page(Page page);
 
     @SelectProvider(type = UserSqlProvider.class, method = PAGE_BY_CONDITION)
-    List<User> pageByCondition(Class clazz, @Param("condition") UserCondition condition, Page page);
+    List<User> pageByCondition(@Param("condition") UserCondition condition, Page page);
 
     @InsertProvider(type = UserSqlProvider.class, method = INSERT)
     int insert(User record);
@@ -58,7 +58,7 @@ public interface UserMapper {
     int updateByPrimaryKey(User record);
 
     @UpdateProvider(type = UserSqlProvider.class, method = DELETE_BY_CONDITION)
-    int deleteByCondition(Class clazz, @Param("condition") UserCondition condition);
+    int deleteByCondition(@Param("condition") UserCondition condition);
 
     @SelectProvider(type = UserSqlProvider.class, method = COUNT_BY_CONDITION)
     long countByCondition(@Param("condition") UserCondition condition);

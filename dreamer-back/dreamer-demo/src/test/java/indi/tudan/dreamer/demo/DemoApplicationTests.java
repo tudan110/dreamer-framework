@@ -27,8 +27,7 @@ public class DemoApplicationTests {
 
     @Test
     public void selectByCondition() {
-        log.info("条件查询结果: {}", userMapper.selectByCondition(User.class,
-                new UserCondition()
+        log.info("条件查询结果: {}", userMapper.selectByCondition(new UserCondition()
                         .fluentSetMinId("605398903319166976")
                         .fluentSetMaxId("605399053823377408")
 //                        .fluentSetName("%小蓝鲸%")
@@ -46,8 +45,7 @@ public class DemoApplicationTests {
 
     @Test
     public void pageByCondition() {
-        log.info("分页查询结果: {}", userMapper.pageByCondition(User.class,
-                new UserCondition()
+        log.info("分页查询结果: {}", userMapper.pageByCondition(new UserCondition()
                         .fluentSetMinId("605398903319166976")
                         .fluentSetMaxId("605399053823377408")
 //                        .fluentSetName("%小蓝鲸%")
@@ -74,8 +72,8 @@ public class DemoApplicationTests {
 
     @Test
     public void deleteByCondition() {
-        log.info("删除了 {} 条", userMapper.deleteByCondition(User.class,
-                new UserCondition().fluentSetId("606166383591424000")));
+        log.info("删除了 {} 条", userMapper.deleteByCondition(new UserCondition()
+                .fluentSetId("606166383591424000")));
     }
 
     @Test
