@@ -5,7 +5,6 @@ import indi.tudan.dreamer.demo.mapper.UserMapper;
 import indi.tudan.dreamer.demo.model.User;
 import indi.tudan.dreamer.demo.model.UserCondition;
 import indi.tudan.dreamer.demo.service.UserService;
-import indi.tudan.dreamer.mybatis.page.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,7 +25,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<User> listUsers() {
-        return userMapper.page(new Page(1, 20, "id asc"));
+//        return userMapper.page(new Page(1, 20, "id asc"));
+        return userMapper.select();
     }
 
     @Override

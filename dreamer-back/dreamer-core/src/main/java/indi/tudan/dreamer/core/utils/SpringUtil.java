@@ -24,12 +24,12 @@ public class SpringUtil implements ApplicationContextAware {
 
     public static Environment env() {
         if (null == env) {
-            env = (Environment) bean("environment");
+            env = (Environment) getBean("environment");
         }
         return env;
     }
 
-    public static Object bean(String name) {
+    public static Object getBean(String name) {
         try {
             return ctx().getBean(name);
         } catch (Exception e) {
@@ -37,7 +37,7 @@ public class SpringUtil implements ApplicationContextAware {
         }
     }
 
-    public static <T> T bean(String name, Class<T> clazz) {
+    public static <T> T getBean(String name, Class<T> clazz) {
         try {
             return ctx().getBean(name, clazz);
         } catch (Exception e) {

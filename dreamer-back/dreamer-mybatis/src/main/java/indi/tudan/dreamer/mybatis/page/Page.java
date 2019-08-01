@@ -3,6 +3,7 @@ package indi.tudan.dreamer.mybatis.page;
 
 import indi.tudan.dreamer.core.bean.BaseObject;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 /**
  * 分页对象
@@ -11,12 +12,14 @@ import lombok.Data;
  * @date 2019-07-30 15:43:33
  * @since 1.0
  */
+@EqualsAndHashCode(callSuper = true)
 @Data
 public class Page extends BaseObject {
 
     private Integer pageNo;
     private Integer pageSize;
     private String orderBy;
+    private String totalCount;
 
     public Page() {
     }

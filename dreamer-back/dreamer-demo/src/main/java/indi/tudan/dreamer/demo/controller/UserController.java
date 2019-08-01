@@ -1,5 +1,7 @@
 package indi.tudan.dreamer.demo.controller;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import indi.tudan.dreamer.demo.model.User;
 import indi.tudan.dreamer.demo.service.UserService;
 import io.swagger.annotations.Api;
@@ -29,13 +31,22 @@ public class UserController {
     @Autowired
     private Environment env;
 
-    @ApiOperation("查询用户")
+    /*@ApiOperation("查询用户")
     @GetMapping("/user")
     public List<User> listUser() {
         log.info("查询所有用户");
 //        PropertiesUtils.getCommonYml("custom.str");
 //        env.getProperty("custom.str");
         return userService.listUsers();
+    }*/
+
+    @ApiOperation("分页查询用户")
+    @GetMapping("/user")
+    public PageInfo<User> listUser() {
+        log.info("分页查询用户");
+        PageHelper.startPage(1, 5);
+        List<User> users = userService.listUsers();
+        return new PageInfo<User>(users);
     }
 
     @ApiOperation("增加用户")
