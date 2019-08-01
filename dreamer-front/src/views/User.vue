@@ -17,6 +17,7 @@
           <Button type="error" size="small" @click="deleteConfirm(row)">删除</Button>
         </template>
       </Table>
+      <Page :total="100" show-sizer style="margin: 20px 0 0 0;"/>
     </div>
 
     <!-- 增加用户 -->
@@ -152,7 +153,9 @@
       listUsers() {
         this.listLoading = true;
         user.listUsers().then(res => {
-            this.dataList = res.data;
+            // this.dataList = res.data;
+            // 使用 pagehelper 插件
+            this.dataList = res.data.list;
             this.listLoading = false;
           });
       },
