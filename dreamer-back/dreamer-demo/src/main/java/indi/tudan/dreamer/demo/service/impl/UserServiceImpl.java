@@ -3,6 +3,7 @@ package indi.tudan.dreamer.demo.service.impl;
 import indi.tudan.dreamer.core.utils.Id.IdUtil;
 import indi.tudan.dreamer.demo.mapper.UserMapper;
 import indi.tudan.dreamer.demo.model.User;
+import indi.tudan.dreamer.demo.model.UserCondition;
 import indi.tudan.dreamer.demo.service.UserService;
 import indi.tudan.dreamer.mybatis.page.Page;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,17 +31,20 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void addUser(User user) {
-        user.setId(IdUtil.nextId());
-        userMapper.addUser(user);
+//        user.setId(IdUtil.nextId());
+//        userMapper.addUser(user);
+        userMapper.insert(user.fluentSetId(IdUtil.nextId()));
     }
 
     @Override
     public void updateUserById(User user) {
-        userMapper.updateUserById(user.getId(), user.getName(), user.getEmail());
+//        userMapper.updateUserById(user.getId(), user.getName(), user.getEmail());
+        userMapper.updateByPrimaryKey(user);
     }
 
     @Override
     public void delUserById(String id) {
-        userMapper.delUserById(id);
+//        userMapper.delUserById(id);
+        userMapper.deleteByCondition(User.class, new UserCondition().fluentSetId(id));
     }
 }

@@ -170,6 +170,7 @@ public abstract class BaseSqlProvider<T> {
             sql.WHERE(getColumnName(primaryKeyName[0])
                     + " = " + getFieldEL(primaryKeyName[0], null));
         }
+        logDebugSql(sql);
         return sql.toString();
     }
 
