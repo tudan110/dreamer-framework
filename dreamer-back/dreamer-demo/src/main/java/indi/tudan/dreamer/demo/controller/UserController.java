@@ -42,9 +42,11 @@ public class UserController {
 
     @ApiOperation("分页查询用户")
     @GetMapping("/user")
-    public PageInfo<User> listUser() {
+    public PageInfo<User> listUser(@RequestParam(value = "pageNum") int pageNum,
+                                   @RequestParam(value = "pageSize") int pageSize
+            /*@RequestBody JSONObject param*/) {
         log.info("分页查询用户");
-        PageHelper.startPage(1, 5);
+        PageHelper.startPage(pageNum, pageSize);
         List<User> users = userService.listUsers();
         return new PageInfo<User>(users);
     }
