@@ -17,12 +17,13 @@
         </template>
       </Table>
       <Page
+        :current="pageNum"
         show-sizer
         :page-size="pageSize"
         :page-size-opts="[5, 10, 20, 50]"
         :total="total"
         @on-page-size-change="handlePageSize"
-        @on-change="listUsers"
+        @on-change="handlePageNum"
         style="margin: 20px 0 0 0;"
       />
     </div>
@@ -105,7 +106,13 @@ export default {
           type: "index",
           width: 65,
           title: "序号",
-          align: "center"
+          align: "center",
+          render: (h, params) => {
+            return h(
+              "span",
+              params.index + (this.pageNum - 1) * this.pageSize + 1
+            );
+          }
         },
         {
           title: "编号",
@@ -120,12 +127,29 @@ export default {
           key: "email"
         },
         {
+          title: "创建人",
+          key: "createUser"
+        },
+        {
+          title: "创建时间",
+          key: "createTime"
+        },
+        {
+          title: "修改人",
+          key: "updateUser"
+        },
+        {
+          title: "修改时间",
+          key: "updateTime"
+        },
+        {
           title: "操作",
           slot: "action",
           width: 150,
           align: "center"
         }
       ],
+      pageNum: 1,
       pageSize: config.pageSize,
       total: 0,
       dataList: [],
@@ -181,15 +205,20 @@ export default {
     isNotBlank(object) {
       return !this.isBlank(object);
     },
+    handlePageNum(pageNum) {
+      this.pageNum = pageNum;
+      this.listUsers(this.pageNum);
+    },
     handlePageSize(pageSize) {
       this.pageSize = pageSize;
-      this.listUsers(1);
+      this.listUsers();
     },
     listUsers(pageNum) {
       this.listLoading = true;
+      this.pageNum = this.isNotBlank(pageNum) ? pageNum : 1;
       user
         .listUsers({
-          pageNum: this.isNotBlank(pageNum) ? pageNum : 1,
+          pageNum: this.pageNum,
           pageSize: this.pageSize
         })
         .then(res => {
@@ -208,14 +237,14 @@ export default {
       }
       user.addUser(this.addFormList).then(res => {
         this.AddBtnNotShow();
-        this.listUsers();
+        this.listUsers(this.total / this.pageSize + 1);
         this.$Message.success("增加成功！");
       });
     },
     updateUser() {
       user.updateUser(this.editFormList).then(res => {
         this.EditBtnNotShow();
-        this.listUsers();
+        this.listUsers(this.pageNum);
         this.$Message.success("修改成功！");
       });
     },
@@ -226,7 +255,7 @@ export default {
     deleteUser() {
       this.deleteloading = true;
       user.deleteUser(this.deleteItem.id).then(res => {
-        this.listUsers();
+        this.listUsers(this.pageNum);
         this.deleteloading = false;
         this.isDeleteShow = false;
         this.$Message.success("删除成功。");

@@ -8,6 +8,7 @@ import indi.tudan.dreamer.demo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -33,13 +34,17 @@ public class UserServiceImpl implements UserService {
     public void addUser(User user) {
 //        user.setId(IdUtil.nextId());
 //        userMapper.addUser(user);
-        userMapper.insert(user.fluentSetId(IdUtil.nextId()));
+        userMapper.insert((User) user.fluentSetId(IdUtil.nextId())
+                .fluentSetCreateUser("default")
+                .fluentSetCreateTime(LocalDateTime.now()));
     }
 
     @Override
     public void updateUserById(User user) {
 //        userMapper.updateUserById(user.getId(), user.getName(), user.getEmail());
-        userMapper.updateByPrimaryKey(user);
+        userMapper.updateByPrimaryKey((User) user
+                .fluentSetUpdateUser("default")
+                .fluentSetUpdateTime(LocalDateTime.now()));
     }
 
     @Override

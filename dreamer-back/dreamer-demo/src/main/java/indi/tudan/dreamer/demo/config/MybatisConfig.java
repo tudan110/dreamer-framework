@@ -15,17 +15,7 @@ import org.springframework.context.annotation.Configuration;
 public class MybatisConfig {
     @Bean
     public ConfigurationCustomizer configurationCustomizer() {
-        return configuration -> {
-            // 设置驼峰命名规则
-            configuration.setMapUnderscoreToCamelCase(true);
-        };
-        /*return new ConfigurationCustomizer() {
-
-            @Override
-            public void customize(org.apache.ibatis.session.Configuration configuration) {
-                // 设置驼峰命名规则
-                configuration.setMapUnderscoreToCamelCase(true);
-            }
-        };*/
+        // 设置驼峰命名规则
+        return configuration -> configuration.setMapUnderscoreToCamelCase(true);
     }
 }

@@ -4,6 +4,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import indi.tudan.dreamer.demo.model.User;
 import indi.tudan.dreamer.demo.service.UserService;
+import indi.tudan.dreamer.model.CUTime;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
@@ -12,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -22,7 +24,7 @@ import java.util.List;
 @Api("用户API")
 @Slf4j
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/user")
 public class UserController {
 
     @Autowired
@@ -41,7 +43,7 @@ public class UserController {
     }*/
 
     @ApiOperation("分页查询用户")
-    @GetMapping("/user")
+    @GetMapping
     public PageInfo<User> listUser(@RequestParam(value = "pageNum") int pageNum,
                                    @RequestParam(value = "pageSize") int pageSize
             /*@RequestBody JSONObject param*/) {
@@ -52,14 +54,14 @@ public class UserController {
     }
 
     @ApiOperation("增加用户")
-    @PostMapping("/user")
+    @PostMapping
     public void addUser(User user) {
         log.info("新增一位用户");
         userService.addUser(user);
     }
 
     @ApiOperation("修改用户")
-    @PutMapping("/user")
+    @PutMapping
     public void updateUser(User user) {
         log.info("更新一位用户");
         userService.updateUserById(user);
@@ -67,9 +69,17 @@ public class UserController {
 
     @ApiOperation("删除用户")
     @ApiImplicitParam(name = "id", value = "用户编号", required = true, dataType = "Integer")
-    @DeleteMapping("/user")
+    @DeleteMapping
     public void deleteUser(@RequestParam(value = "id") String id) {
         log.info("删除一位用户");
         userService.delUserById(id);
+    }
+
+    @ApiOperation("测试时间格式")
+    @GetMapping("/time")
+    public CUTime listUser() {
+        return new CUTime()
+                .fluentSetCreateTime(LocalDateTime.now())
+                .fluentSetUpdateTime(LocalDateTime.now());
     }
 }
