@@ -1,6 +1,5 @@
 <template>
   <div class="test">
-
     <!-- 按钮 -->
     <div type="flex" class="right" justify="end">
       <Row type="flex" justify="end" class="code-row-bg">
@@ -17,7 +16,15 @@
           <Button type="error" size="small" @click="deleteConfirm(row)">删除</Button>
         </template>
       </Table>
-      <Page :total="100" show-sizer style="margin: 20px 0 0 0;"/>
+      <Page
+        show-sizer
+        :page-size="pageSize"
+        :page-size-opts="[5, 10, 20, 50]"
+        :total="total"
+        @on-page-size-change="handlePageSize"
+        @on-change="listUsers"
+        style="margin: 20px 0 0 0;"
+      />
     </div>
 
     <!-- 增加用户 -->
@@ -66,183 +73,211 @@
     <div>
       <Modal v-model="isDeleteShow" width="260">
         <p slot="header" style="color:#f60;text-align:center">
-            <Icon type="ios-information-circle"></Icon>
-            <span>删除确认</span>
+          <Icon type="ios-information-circle"></Icon>
+          <span>删除确认</span>
         </p>
         <div style="text-align:center">
-            <p>此操作将会删除数据库记录。</p>
-            <p>是否继续删除？</p>
+          <p>此操作将会删除数据库记录。</p>
+          <p>是否继续删除？</p>
         </div>
         <div slot="footer">
-            <Button type="error" size="large" long :loading="deleteloading" @click="deleteUser">删除</Button>
+          <Button type="error" size="large" long :loading="deleteloading" @click="deleteUser">删除</Button>
         </div>
-    </Modal>
+      </Modal>
     </div>
-
   </div>
 </template>
 
 <script>
-  import user from "../api/user.js";
-  export default {
-    data() {
-      return {
-        isAddShow: false,
-        isEditShow: false,
-        isDeleteShow: false,
-        deleteloading:false,
-        deleteItem:{},
-        listLoading: false,
-        columns: [{
-            title: "编号",
-            key: "id"
-          },
-          {
-            title: "名称",
-            key: "name"
-          },
-          {
-            title: "邮箱",
-            key: "email"
-          },
-          {
-            title: "操作",
-            slot: "action",
-            width: 150,
-            align: "center"
-          }
-        ],
-        dataList: [],
-        addFormList: {
-          id: "",
-          name: "",
-          email: ""
+import user from "../api/user";
+import config from "../config/config";
+export default {
+  data() {
+    return {
+      isAddShow: false,
+      isEditShow: false,
+      isDeleteShow: false,
+      deleteloading: false,
+      deleteItem: {},
+      listLoading: false,
+      columns: [
+        {
+          title: "编号",
+          key: "id"
         },
-        editFormList: {
-          id: "",
-          name: "",
-          email: ""
+        {
+          title: "名称",
+          key: "name"
         },
-        ruleValidate: {
-          // id: [{
-          //   required: true,
-          //   type: "number",
-          //   message: "编号只能为数字！",
-          //   trigger: "blur"
-          // }],
-          name: [{
+        {
+          title: "邮箱",
+          key: "email"
+        },
+        {
+          title: "操作",
+          slot: "action",
+          width: 150,
+          align: "center"
+        }
+      ],
+      pageSize: config.pageSize,
+      total: 0,
+      dataList: [],
+      addFormList: {
+        id: "",
+        name: "",
+        email: ""
+      },
+      editFormList: {
+        id: "",
+        name: "",
+        email: ""
+      },
+      ruleValidate: {
+        // id: [{
+        //   required: true,
+        //   type: "number",
+        //   message: "编号只能为数字！",
+        //   trigger: "blur"
+        // }],
+        name: [
+          {
             required: true,
             message: "姓名不能为空！",
             trigger: "blur"
-          }],
-          email: [{
-              required: true,
-              message: "邮箱不能为空！",
-              trigger: "blur"
-            },
-            {
-              type: "email",
-              message: "不合法的邮箱！",
-              trigger: "blur"
-            }
-          ]
-        }
-      };
-    },
-    methods: {
-      listUsers() {
-        this.listLoading = true;
-        user.listUsers().then(res => {
-            // this.dataList = res.data;
-            // 使用 pagehelper 插件
-            this.dataList = res.data.list;
-            this.listLoading = false;
-          });
-      },
-      addUser() {
-        let flag = this.FindUser();
-        if (flag) {
-          this.$Message.error("编号已经存在！");
-          return;
-        }
-        user.addUser(this.addFormList).then(res => {
-          this.AddBtnNotShow();
-          this.listUsers();
-          this.$Message.success("增加成功！");
-        });
-      },
-      updateUser() {
-        user.updateUser(this.editFormList).then(res => {
-          this.EditBtnNotShow();
-          this.listUsers();
-          this.$Message.success("修改成功！");
-        });
-      },
-      deleteConfirm (item) {
-        this.deleteItem = item;
-        this.isDeleteShow = true;
-      },
-      deleteUser() {
-        this.deleteloading = true;
-        user.deleteUser(this.deleteItem.id).then(res => {
-          this.listUsers();
-          this.deleteloading = false;
-          this.isDeleteShow = false;
-          this.$Message.success('删除成功。');
-        });
-      },
-      HandleSubmit(name) {
-        this.$refs[name].validate(valid => {
-          if (valid) {
-            if (this.isAddShow) {
-              this.addUser();
-            } else if (this.isEditShow) {
-              this.updateUser();
-            }
-          } else {
-            this.$Message.error("填写信息错误!");
           }
-        });
-      },
-      AddBtnShow() {
-        this.HandleReset("addFormList");
-        this.isAddShow = true;
-      },
-      AddBtnNotShow() {
-        this.isAddShow = false;
-      },
-      EditBtnShow(item) {
-        this.isEditShow = true;
-        this.editFormList.id = item.id;
-        this.editFormList.name = item.name;
-        this.editFormList.email = item.email;
-      },
-      EditBtnNotShow() {
-        this.isEditShow = false;
-      },
-      HandleReset(name) {
-        this.$refs[name].resetFields();
-      },
-      FindUser() {
-        let flag = false;
-        this.dataList.forEach(item => {
-          if (item.id == this.addFormList.id) flag = true;
-        });
-        return flag;
+        ],
+        email: [
+          {
+            required: true,
+            message: "邮箱不能为空！",
+            trigger: "blur"
+          },
+          {
+            type: "email",
+            message: "不合法的邮箱！",
+            trigger: "blur"
+          }
+        ]
       }
+    };
+  },
+  methods: {
+    isBlank(object) {
+      return (
+        object === null ||
+        object === "null" ||
+        object === undefined ||
+        object === "undefined" ||
+        object === ""
+      );
     },
-    mounted() {
-      this.listUsers();
+    isNotBlank(object) {
+      return !this.isBlank(object);
+    },
+    handlePageSize(pageSize) {
+      this.pageSize = pageSize;
+      this.listUsers(1);
+    },
+    listUsers(pageNum) {
+      this.listLoading = true;
+      user
+        .listUsers({
+          pageNum: this.isNotBlank(pageNum) ? pageNum : 1,
+          pageSize: this.pageSize
+        })
+        .then(res => {
+          // this.dataList = res.data;
+          // 使用 pagehelper 插件
+          this.dataList = res.data.list;
+          this.total = res.data.total;
+          this.listLoading = false;
+        });
+    },
+    addUser() {
+      let flag = this.FindUser();
+      if (flag) {
+        this.$Message.error("编号已经存在！");
+        return;
+      }
+      user.addUser(this.addFormList).then(res => {
+        this.AddBtnNotShow();
+        this.listUsers();
+        this.$Message.success("增加成功！");
+      });
+    },
+    updateUser() {
+      user.updateUser(this.editFormList).then(res => {
+        this.EditBtnNotShow();
+        this.listUsers();
+        this.$Message.success("修改成功！");
+      });
+    },
+    deleteConfirm(item) {
+      this.deleteItem = item;
+      this.isDeleteShow = true;
+    },
+    deleteUser() {
+      this.deleteloading = true;
+      user.deleteUser(this.deleteItem.id).then(res => {
+        this.listUsers();
+        this.deleteloading = false;
+        this.isDeleteShow = false;
+        this.$Message.success("删除成功。");
+      });
+    },
+    HandleSubmit(name) {
+      this.$refs[name].validate(valid => {
+        if (valid) {
+          if (this.isAddShow) {
+            this.addUser();
+          } else if (this.isEditShow) {
+            this.updateUser();
+          }
+        } else {
+          this.$Message.error("填写信息错误!");
+        }
+      });
+    },
+    AddBtnShow() {
+      this.HandleReset("addFormList");
+      this.isAddShow = true;
+    },
+    AddBtnNotShow() {
+      this.isAddShow = false;
+    },
+    EditBtnShow(item) {
+      this.isEditShow = true;
+      this.editFormList.id = item.id;
+      this.editFormList.name = item.name;
+      this.editFormList.email = item.email;
+    },
+    EditBtnNotShow() {
+      this.isEditShow = false;
+    },
+    HandleReset(name) {
+      this.$refs[name].resetFields();
+    },
+    FindUser() {
+      let flag = false;
+      this.dataList.forEach(item => {
+        if (item.id == this.addFormList.id) flag = true;
+      });
+      return flag;
     }
-  };
+  },
+  mounted() {
+    this.listUsers();
+  }
+};
 </script>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-  .test {
-    margin: 20px;
-  }
+.test {
+  margin: 20px;
+}
 
-  .right {
-    margin: 15px;
-  }
+.right {
+  margin: 15px;
+}
 </style>
