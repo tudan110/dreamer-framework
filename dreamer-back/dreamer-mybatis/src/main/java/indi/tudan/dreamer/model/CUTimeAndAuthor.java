@@ -14,9 +14,9 @@ import lombok.EqualsAndHashCode;
 @Data
 public class CUTimeAndAuthor extends CUTime {
 
-    private String createUser;
+    public String createUser;
 
-    private String updateUser;
+    public String updateUser;
 
     /* start: Builder 链式调用 */
     public CUTimeAndAuthor fluentSetCreateUser(String createUser) {

@@ -14,9 +14,9 @@ import java.time.LocalDateTime;
 @Data
 public class CUTime {
 
-    private LocalDateTime createTime;
+    public LocalDateTime createTime;
 
-    private LocalDateTime updateTime;
+    public LocalDateTime updateTime;
 
     /* start: Builder 链式调用 */
     public CUTime fluentSetCreateTime(LocalDateTime createTime) {
