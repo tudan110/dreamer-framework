@@ -48,7 +48,7 @@ public class UserController {
         log.info("分页查询用户");
         PageHelper.startPage(pageNum, pageSize);
         List<User> users = userService.listUsers();
-        return new PageInfo<User>(users);
+        return new PageInfo<>(users);
     }
 
     @ApiOperation("增加用户")

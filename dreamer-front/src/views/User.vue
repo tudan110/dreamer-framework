@@ -102,6 +102,12 @@ export default {
       listLoading: false,
       columns: [
         {
+          type: "index",
+          width: 65,
+          title: "序号",
+          align: "center"
+        },
+        {
           title: "编号",
           key: "id"
         },

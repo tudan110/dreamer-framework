@@ -1,7 +1,9 @@
 package indi.tudan.dreamer.demo.model;
 
+import indi.tudan.dreamer.model.CUTimeAndAuthor;
 import indi.tudan.dreamer.mybatis.annotation.PK;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 /**
  * 用户实体类
@@ -10,8 +12,9 @@ import lombok.Data;
  * @date 2019-07-26 17:06:15
  * @since 1.0
  */
+@EqualsAndHashCode(callSuper = true)
 @Data
-public class User {
+public class User extends CUTimeAndAuthor {
 
     @PK
     private String id;
@@ -36,5 +39,4 @@ public class User {
         return this;
     }
     /* end: Builder 链式调用 */
-
 }
