@@ -45,13 +45,7 @@ public class PageInteceptor implements Interceptor {
 
     @Override
     public Object plugin(Object target) {
-        // 读取 @Signature 中的配置，判断是否需要生成代理类
-        if (target instanceof ResultSetHandler) {
-            // 返回代理
-            return Plugin.wrap(target, this);
-        } else {
-            return target;
-        }
+        return Plugin.wrap(target, this);
     }
 
     @Override
