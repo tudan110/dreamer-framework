@@ -1,7 +1,7 @@
 package indi.tudan.dreamer.demo.service;
 
 
-import indi.tudan.dreamer.demo.model.User;
+import indi.tudan.dreamer.demo.entity.User;
 
 import java.util.List;
 

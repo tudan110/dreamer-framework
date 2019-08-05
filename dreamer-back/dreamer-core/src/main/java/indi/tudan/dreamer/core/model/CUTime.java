@@ -1,4 +1,4 @@
-package indi.tudan.dreamer.model;
+package indi.tudan.dreamer.core.model;
 
 import lombok.Data;
 

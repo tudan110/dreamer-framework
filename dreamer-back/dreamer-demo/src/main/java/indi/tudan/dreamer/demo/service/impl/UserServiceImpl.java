@@ -1,8 +1,8 @@
 package indi.tudan.dreamer.demo.service.impl;
 
 import indi.tudan.dreamer.core.utils.Id.IdUtil;
+import indi.tudan.dreamer.demo.entity.User;
 import indi.tudan.dreamer.demo.mapper.UserMapper;
-import indi.tudan.dreamer.demo.model.User;
 import indi.tudan.dreamer.demo.model.UserCondition;
 import indi.tudan.dreamer.demo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;

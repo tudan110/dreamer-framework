@@ -2,7 +2,7 @@ package indi.tudan.dreamer.demo;
 
 import indi.tudan.dreamer.core.utils.Id.IdUtil;
 import indi.tudan.dreamer.demo.mapper.UserMapper;
-import indi.tudan.dreamer.demo.model.User;
+import indi.tudan.dreamer.demo.entity.User;
 import indi.tudan.dreamer.demo.model.UserCondition;
 import indi.tudan.dreamer.mybatis.page.Page;
 import lombok.extern.slf4j.Slf4j;

@@ -13,6 +13,14 @@
 
     <dependencies>
 
+        <!-- 添加 dreamer-core 依赖 -->
+        <dependency>
+            <groupId>indi.tudan</groupId>
+            <artifactId>dreamer-core</artifactId>
+            <version>1.0.0</version>
+            <scope>compile</scope>
+        </dependency>
+
         <!-- 添加 Mybatis 依赖 -->
         <!--<dependency>
             <groupId>org.mybatis.spring.boot</groupId>
@@ -26,14 +34,7 @@
             <artifactId>pagehelper-spring-boot-starter</artifactId>
             <version>1.2.12</version>
         </dependency>
-
-        <!-- 添加 dreamer-core 依赖 -->
-        <dependency>
-            <groupId>indi.tudan</groupId>
-            <artifactId>dreamer-core</artifactId>
-            <version>1.0.0</version>
-            <scope>compile</scope>
-        </dependency>
+        
     </dependencies>
 
 </project>

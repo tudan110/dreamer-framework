@@ -1,6 +1,6 @@
-package indi.tudan.dreamer.demo.model;
+package indi.tudan.dreamer.demo.entity;
 
-import indi.tudan.dreamer.model.CUTimeAndAuthor;
+import indi.tudan.dreamer.core.model.CUTimeAndAuthor;
 import indi.tudan.dreamer.mybatis.annotation.PK;
 import lombok.Data;
 import lombok.EqualsAndHashCode;

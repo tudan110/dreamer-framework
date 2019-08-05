@@ -1,6 +1,6 @@
 package indi.tudan.dreamer.demo.mapper;
 
-import indi.tudan.dreamer.demo.model.User;
+import indi.tudan.dreamer.demo.entity.User;
 import indi.tudan.dreamer.mybatis.builder.BaseSqlProvider;
 import org.apache.ibatis.jdbc.SQL;
 
