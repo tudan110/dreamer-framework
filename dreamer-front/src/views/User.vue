@@ -103,14 +103,14 @@ export default {
       listLoading: false,
       columns: [
         {
-          type: "index",
+          // type: "index",
           width: 65,
           title: "序号",
           align: "center",
           render: (h, params) => {
             return h(
               "span",
-              params.index + (this.pageNum - 1) * this.pageSize + 1
+              params.index + 1 + (this.pageNum - 1) * this.pageSize
             );
           }
         },
