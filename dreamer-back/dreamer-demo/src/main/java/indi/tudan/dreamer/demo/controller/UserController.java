@@ -2,7 +2,7 @@ package indi.tudan.dreamer.demo.controller;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import indi.tudan.dreamer.core.model.CUTime;
+import indi.tudan.dreamer.demo.model.CUTime;
 import indi.tudan.dreamer.demo.entity.User;
 import indi.tudan.dreamer.demo.service.UserService;
 import io.swagger.annotations.Api;

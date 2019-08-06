@@ -1,4 +1,4 @@
-package indi.tudan.dreamer.core.model;
+package indi.tudan.dreamer.demo.model;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;

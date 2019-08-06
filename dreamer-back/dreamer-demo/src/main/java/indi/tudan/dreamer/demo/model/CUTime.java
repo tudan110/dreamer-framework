@@ -1,5 +1,6 @@
-package indi.tudan.dreamer.core.model;
+package indi.tudan.dreamer.demo.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
 import java.time.LocalDateTime;
@@ -14,8 +15,10 @@ import java.time.LocalDateTime;
 @Data
 public class CUTime {
 
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     public LocalDateTime createTime;
 
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     public LocalDateTime updateTime;
 
     /* start: Builder 链式调用 */

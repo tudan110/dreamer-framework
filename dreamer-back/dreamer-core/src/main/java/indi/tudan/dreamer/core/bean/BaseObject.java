@@ -13,6 +13,7 @@ import java.io.Serializable;
  * @date 2019-07-30 15:43:48
  * @since 1.0
  */
+@Deprecated
 public abstract class BaseObject implements Serializable {
 
     @Override
