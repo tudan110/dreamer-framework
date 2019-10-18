@@ -1,6 +1,6 @@
 package indi.tudan.dreamer.demo.service.impl;
 
-import indi.tudan.dreamer.core.utils.Id.IdUtil;
+import indi.tudan.dreamer.core.utils.Id.IdUtils;
 import indi.tudan.dreamer.demo.entity.User;
 import indi.tudan.dreamer.demo.mapper.UserMapper;
 import indi.tudan.dreamer.demo.model.UserCondition;
@@ -34,7 +34,7 @@ public class UserServiceImpl implements UserService {
     public void addUser(User user) {
 //        user.setId(IdUtil.nextId());
 //        userMapper.addUser(user);
-        userMapper.insert((User) user.fluentSetId(IdUtil.nextId())
+        userMapper.insert((User) user.fluentSetId(IdUtils.nextId())
                 .fluentSetCreateUser("default")
                 .fluentSetCreateTime(LocalDateTime.now()));
     }

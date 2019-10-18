@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
  */
 
 @Component
-public class IdUtil {
+public class IdUtils {
 
     @Value("${system.workerId}")
     private static long workerId;

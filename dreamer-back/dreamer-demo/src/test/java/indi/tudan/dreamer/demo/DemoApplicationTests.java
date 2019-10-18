@@ -1,6 +1,6 @@
 package indi.tudan.dreamer.demo;
 
-import indi.tudan.dreamer.core.utils.Id.IdUtil;
+import indi.tudan.dreamer.core.utils.Id.IdUtils;
 import indi.tudan.dreamer.demo.mapper.UserMapper;
 import indi.tudan.dreamer.demo.entity.User;
 import indi.tudan.dreamer.demo.model.UserCondition;
@@ -56,7 +56,7 @@ public class DemoApplicationTests {
     @Test
     public void insert() {
         int count = userMapper.insert(new User()
-                .fluentSetId(IdUtil.nextId())
+                .fluentSetId(IdUtils.nextId())
                 .fluentSetName("insert-test")
                 .fluentSetEmail("test@test.com"));
         log.info("插入了 {} 条", count);
