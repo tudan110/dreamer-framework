@@ -1,4 +1,4 @@
-# vue-hello-world
+# dreamer-front
 
 ## Project setup
 ```
