@@ -27,7 +27,18 @@
     </modules>
 
     <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
+
+        <!-- 不执行测试用例，但编译测试用例类生成相应的class文件至target/test-classes下 -->
+        <!--<skipTests>true</skipTests>-->
+
+        <!-- Maven properties -->
+        <!-- 不执行测试用例，也不编译测试用例类 -->
+        <maven.test.skip>true</maven.test.skip>
+        <maven.javadoc.skip>true</maven.javadoc.skip>
+
     </properties>
 
     <dependencies>
